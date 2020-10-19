@@ -143,10 +143,24 @@ https://trello.com/b/pBrKiqrt/3rd-project
 
 ### Git
 
-[Client repository Link]
+https://github.com/Hachiko9/TheBBBClub_FE/
 
-[Server repository Link]
+https://github.com/Hachiko9/TheBBBClub_BE/
 
-[Deployed App Link]
+https://thebbbclub.netlify.app/
+
+### User Flow
+
+https://app.mural.co/t/3rdproject4254/m/3rdproject4254/1602869366581/543a4871a42fbd75c46a459a6b0c33dda0ce548c
 
 ### Slides
+
+https://docs.google.com/presentation/d/1zDhA8WHfCbDyV38R99x_am5LfV2xHfDs8PSp_wfJx-k/edit?usp=sharing
+
+
+
+
+
+
+
+
