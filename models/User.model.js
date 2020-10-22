@@ -22,7 +22,8 @@ const userSchema = new Schema(
     password: {
       type: String,
       required: [true, 'Password is required.']
-    }
+    },
+    reviewsIds: [String],
   },
   {
     timestamps: true
