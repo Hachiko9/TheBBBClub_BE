@@ -14,7 +14,8 @@ const app = express();
 app.use(
   cors({
     credentials: true,
-    origin: process.env.ORIGIN,
+    // origin: process.env.ORIGIN, // FIXME add origin to env conf
+    origin: 'http://localhost:3000',
   })
 );
 app.set('port', (process.env.PORT || 8000));

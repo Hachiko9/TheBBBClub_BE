@@ -1,10 +1,6 @@
 const { Router } = require("express");
 const router = new Router();
-const bcryptjs = require("bcryptjs");
-const saltRounds = 10;
 const Review = require("../models/review.model");
-const Session = require("../models/Session.model");
-const mongoose = require("mongoose");
 
 // get reviews by movie
 router.get("movies/:movieId/reviews", (req, res) => {

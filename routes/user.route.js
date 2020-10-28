@@ -17,7 +17,7 @@ router.post("/signup", (req, res, next) => {
   const { username, email, password } = req.body;
 
   if (!username || !email || !password) {
-    res.status(200).json({
+    res.status(400).json({
       errorMessage:
         "All fields are mandatory. Please provide your username, email and password.",
     });
@@ -28,7 +28,7 @@ router.post("/signup", (req, res, next) => {
 
   const regex = /(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{6,}/;
   if (!regex.test(password)) {
-    res.status(200).json({
+    res.status(400).json({
       errorMessage:
         "Password needs to have at least 6 chars and must contain at least one number, one lowercase and one uppercase letter.",
     });
@@ -59,9 +59,9 @@ router.post("/signup", (req, res, next) => {
     })
     .catch((error) => {
       if (error instanceof mongoose.Error.ValidationError) {
-        res.status(200).json({ errorMessage: error.message });
+        res.status(400).json({ errorMessage: error.message });
       } else if (error.code === 11000) {
-        res.status(200).json({
+        res.status(409).json({
           errorMessage:
             "Username and email need to be unique. Either username or email is already used.",
         });
@@ -113,7 +113,7 @@ router.post("/login", (req, res, next) => {
 
 router.post("/logout", (req, res) => {
   Session.deleteOne({
-    userId: req.body.accessToken,
+    userId: req.body.userId,
   })
     .then((session) => {
       res.status(200).json({ success: "User was logged out" });
