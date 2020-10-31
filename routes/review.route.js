@@ -3,7 +3,7 @@ const router = new Router();
 const Review = require("../models/review.model");
 
 // get reviews by movie
-router.get("movies/:movieId/reviews", (req, res) => {
+router.get("/movies/:movieId", (req, res) => {
     const { movieId } = req.params;
 
     Review.find({movieId})
@@ -12,18 +12,18 @@ router.get("movies/:movieId/reviews", (req, res) => {
 })
 
 // get reviews by user
-router.get("user/:userId/reviews", (req, res) => {
+router.get("/user/:userId", (req, res) => {
     const { userId } = req.params;
+    console.log('id', userId)
 
-    Review.find({userId})
+    Review.find({author: userId})
         .then(reviews => res.status(200).json({reviews}))
         .catch(err => res.status(500).json({errorMessage: err}))
 })
 
 // FIXME check if needed
 // get review
-router.get("user/:userId/reviews/:reviewId", (req, res) => {
-
+router.get("/:reviewId/user/:userId", (req, res) => {
     const { userId, reviewId } = req.params;
     Review.find({userId, reviewId})
         .then(review => res.status(200).json({review}))
@@ -31,7 +31,7 @@ router.get("user/:userId/reviews/:reviewId", (req, res) => {
 });
 
 //edit review
-router.put("user/:userId/reviews/:reviewId", (req, res) => {
+router.put("/:reviewId/user/:userId", (req, res) => {
     const { userId, reviewId } = req.params;
     const { review } = req.body;
     if(userInSession.id === userId) {
@@ -46,7 +46,7 @@ router.put("user/:userId/reviews/:reviewId", (req, res) => {
 })
 
 //add new review
-router.post("user/:userId/reviews/add", (req, res) => {
+router.post("user/:userId/add", (req, res) => {
     const { userId } = req.params;
     const { review } = req.body;
     if(userInSession.id === userId) {
@@ -59,7 +59,7 @@ router.post("user/:userId/reviews/add", (req, res) => {
 })
 
 // delete review
-router.delete("user/:userId/reviews/:reviewId/delete", (req, res) => {
+router.delete("/:reviewId/user/:userId/delete", (req, res) => {
     const { userId, reviewId } = req.params;
 
     if(userInSession.id === userId) {
@@ -70,3 +70,5 @@ router.delete("user/:userId/reviews/:reviewId/delete", (req, res) => {
         res.status(403).json();
     }
 })
+
+module.exports = router;
