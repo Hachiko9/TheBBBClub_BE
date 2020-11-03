@@ -1,6 +1,6 @@
 const { Router } = require("express");
 const router = new Router();
-const Review = require("../models/review.model");
+const Review = require("../models/Review.model");
 
 // get reviews by movie
 router.get("/movies/:movieId", (req, res) => {
