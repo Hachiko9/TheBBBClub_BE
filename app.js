@@ -18,7 +18,7 @@ app.use(
     origin: process.env.NODE_ENV === 'development' ? 'http://localhost:3000' : process.env.ORIGIN
   })
 );
-app.set('port', (process.env.PORT || 8000));
+// app.set('port', (process.env.PORT || 8000));
 
 app.use(logger("dev"));
 app.use(express.json());
