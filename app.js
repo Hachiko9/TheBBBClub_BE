@@ -30,8 +30,10 @@ app.get("/", (req,res) => res.json("bananan"))
 app.use("/user", userRouter);
 app.use("/reviews", reviewsRouter);
 
-app.listen(app.get('port'), () => {
+/* app.listen(app.get('port'), () => {
     console.log(`server started at http://localhost:${app.get('port')}`);
-});
 
+
+});
+*/
 module.exports = app;
