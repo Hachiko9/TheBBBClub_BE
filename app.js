@@ -2,14 +2,16 @@ const express = require("express");
 const cookieParser = require("cookie-parser");
 const logger = require("morgan");
 const cors = require("cors");
+require('dotenv').config();
+
+const app = express();
 
 require("./config/db.config");
+require('./config/session.config')(app)
 
 //Router definition
 const userRouter = require("./routes/user.route");
 const reviewsRouter = require("./routes/review.route");
-
-const app = express();
 
 //CORS configuration
 app.use(
@@ -30,10 +32,7 @@ app.get("/", (req,res) => res.json("bananan"))
 app.use("/user", userRouter);
 app.use("/reviews", reviewsRouter);
 
-/* app.listen(app.get('port'), () => {
+ app.listen(app.get('port'), () => {
     console.log(`server started at http://localhost:${app.get('port')}`);
-
-
 });
-*/
 module.exports = app;

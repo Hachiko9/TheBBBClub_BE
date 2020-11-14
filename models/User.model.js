@@ -24,6 +24,7 @@ const userSchema = new Schema(
       required: [true, 'Password is required.']
     },
     reviewsIds: [String],
+    favouriteMoviesIds: [String]
   },
   {
     timestamps: true

@@ -76,7 +76,7 @@ router.post("/signup", (req, res, next) => {
 ////////////////////////////////////////////////////////////////////////
 
 // .post() login route ==> to process form data
-router.post("/login", (req, res, next) => {
+router.post("/login", async (req, res, next) => {
   const { email, password } = req.body;
 
   if (email === "" || password === "") {
@@ -86,25 +86,20 @@ router.post("/login", (req, res, next) => {
     return;
   }
 
-  User.findOne({ email })
-    .then((user) => {
+  await User.findOne({ email })
+    .then(async (user) => {
       if (!user) {
-        res.status(200).json({
-          errorMessage: "Email is not registered. Try with other email.",
-        });
-        return;
+        return res.status(400).json({errorMessage: "Email is not registered. Try with other email."});
       } else if (bcryptjs.compareSync(password, user.password)) {
-        Session.create({
+        await Session.create({
           userId: user._id,
           createdAt: Date.now(),
-        }).then((session) => {
-          res.status(200).json({ accessToken: session._id, user });
-        });
+        }).then((session) => res.status(200).json({ accessToken: session._id, user }));
       } else {
-        res.status(200).json({ errorMessage: "Incorrect password." });
+        res.status(400).json({ errorMessage: "Incorrect password." });
       }
     })
-    .catch((error) => res.status(500).json({ errorMessage: err }));
+    .catch((error) => res.status(500).json({ errorMessage: error }));
 });
 
 ////////////////////////////////////////////////////////////////////////
@@ -125,16 +120,35 @@ router.get("/session/:accessToken", (req, res) => {
   const { accessToken } = req.params;
   Session.findById({ _id: accessToken }).populate("userId").then((session) => {
     if (!session) {
-      res.status(200).json({
+      res.status(409).json({
         errorMessage: "Session does not exist",
       });
     } else {
-      res.status(200).json({
-        session
-      });
+      res.status(200).json({session});
     }
   })
   .catch(err => res.status(500).json({errorMessage: err}))
 });
+
+router.post("/:userId/like", async (req, res) => {
+  const { userId } = req.params;
+  const {movieId} = req.body;
+
+  if(userId) {
+    const user = await User.findOne({_id: userId}).exec();
+
+    if (!user.favouriteMoviesIds.includes(movieId)) {
+      const newIds = [...user.favouriteMoviesIds, movieId];
+      await User.findOneAndUpdate({_id: userId}, {favouriteMoviesIds: newIds}, { new: true })
+      return res.status(200).json({user})
+    } else {
+      const newIds = user.favouriteMoviesIds.filter((id) => Number(id) !== movieId);
+      await User.findOneAndUpdate({_id: userId}, {favouriteMoviesIds: newIds}, { new: true })
+      return res.status(200).json({user})
+    }
+  } else {
+    res.status(403).json();
+  }
+})
 
 module.exports = router;
