@@ -142,6 +142,8 @@ router.post("/:userId/like", async (req, res) => {
       await User.findOneAndUpdate({_id: userId}, {favouriteMoviesIds: newIds}, { new: true })
       return res.status(200).json({user})
     } else {
+      console.log('user.favouriteMoviesIds => ', user.favouriteMoviesIds);
+      console.log('user.favouriteMoviesIds.filter((id) => Number(id) !== movieId) => ', user.favouriteMoviesIds.filter((id) => Number(id) !== movieId));
       const newIds = user.favouriteMoviesIds.filter((id) => Number(id) !== movieId);
       await User.findOneAndUpdate({_id: userId}, {favouriteMoviesIds: newIds}, { new: true })
       return res.status(200).json({user})
