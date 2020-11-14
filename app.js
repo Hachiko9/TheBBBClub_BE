@@ -17,7 +17,7 @@ const reviewsRouter = require("./routes/review.route");
 app.use(
   cors({
     credentials: true,
-    origin: process.env.NODE_ENV === 'development' ? 'http://localhost:3000' : process.env.ORIGIN
+    origin: process.env.ORIGIN
   })
 );
 // app.set('port', (process.env.PORT || 8000));
